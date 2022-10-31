@@ -7,9 +7,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
-public class Block {
+public class PublicationBlock {
 
         public int x, y;
 
@@ -18,23 +17,23 @@ public class Block {
         @JsonIgnore
         public BufferedImage source;
 
-        public Block() {
+        public PublicationBlock() {
             x = 0;
             y = 0;
             source = null;
         }
 
-        public Block(int x, int y, BufferedImage source) {
+        public PublicationBlock(int x, int y, BufferedImage source, String format) {
             this.x = x;
             this.y = y;
             this.source = source;
             ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
             try {
-                ImageIO.write(source, "jpg", byteArrayOS);
+                ImageIO.write(source, format, byteArrayOS);
             }catch (IOException e){
                 System.out.println(e.getMessage());
             }
-            base64 = "data:image/jpeg;base64,"+ Base64.getEncoder().encodeToString(byteArrayOS.toByteArray());
+            base64 = "data:image/" + format + ";base64,"+ Base64.getEncoder().encodeToString(byteArrayOS.toByteArray());
         }
 
         public int getw() { return source.getWidth(); }

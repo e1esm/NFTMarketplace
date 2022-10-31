@@ -1,30 +1,24 @@
 package com.nft.marketplace.nftmarketplace.service;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.nft.marketplace.nftmarketplace.models.Block;
-import com.nft.marketplace.nftmarketplace.models.ImageDTO;
+import com.nft.marketplace.nftmarketplace.models.PublicationBlock;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import javax.xml.bind.DatatypeConverter;
 
 public class Publication {
 
 
     BufferedImage source;
-    ArrayList<Block> blocks;
+    ArrayList<PublicationBlock> blocks;
+
+    String format;
 
 
     Publication() {
@@ -34,12 +28,13 @@ public class Publication {
 
     public Publication(String src) {
         try {
-            src = src.split(",")[1];
-            source = ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(src)));
+            String[] stringArr = src.split(",");
+            source = ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(stringArr[1])));
+            format = stringArr[0].substring(stringArr[0].indexOf('/'),stringArr[0].indexOf(';'));
         } catch (IOException e) {
             System.out.println("image buffer is empty");
         }
-        blocks = new ArrayList<Block>();
+        blocks = new ArrayList<PublicationBlock>();
     }
 
 
@@ -67,7 +62,7 @@ public class Publication {
                 int w = (j == n - 1) ? source.getWidth() - x : dw;
                 int h = (i == m - 1) ? source.getHeight() - y : dh;
 
-                blocks.add(new Block(i, j, source.getSubimage(x, y, w, h)));
+                blocks.add(new PublicationBlock(i, j, source.getSubimage(x, y, w, h), format));
             }
         }
     }

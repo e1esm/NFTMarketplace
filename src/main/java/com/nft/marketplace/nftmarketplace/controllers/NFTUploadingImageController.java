@@ -1,19 +1,14 @@
 package com.nft.marketplace.nftmarketplace.controllers;
 
-import com.nft.marketplace.nftmarketplace.models.ImageDTO;
+import com.nft.marketplace.nftmarketplace.dto.ImageDto;
 
 import com.nft.marketplace.nftmarketplace.service.Publication;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-
 @RestController
-public class NFTController {
+public class NFTUploadingImageController {
     /*
     @Autowired
     NFTService nftService;
@@ -25,7 +20,7 @@ public class NFTController {
      */
     @CrossOrigin
     @PostMapping("/")
-    public ResponseEntity<?> saveCollection(@RequestBody ImageDTO img){
+    public ResponseEntity<?> saveCollection(@RequestBody ImageDto img){
         Publication pub = new Publication(img.getSrc());
         pub.split(img.getNblocks());
         HttpHeaders responseHeaders = new HttpHeaders();
