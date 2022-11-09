@@ -1,7 +1,4 @@
-/*
 package com.nft.marketplace.nftmarketplace.service;
-
-
 import com.nft.marketplace.nftmarketplace.models.NFTCollection;
 import com.nft.marketplace.nftmarketplace.repository.NFTRepository;
 import lombok.Getter;
@@ -32,5 +29,3 @@ public class NFTService {
     }
 
 }
-
- */

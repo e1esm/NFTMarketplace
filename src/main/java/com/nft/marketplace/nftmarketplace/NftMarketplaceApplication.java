@@ -7,9 +7,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication
 public class NftMarketplaceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(NftMarketplaceApplication.class, args);
     }
-
 }

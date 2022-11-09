@@ -1,22 +1,27 @@
-package com.nft.marketplace.nftmarketplace.service;
+package com.nft.marketplace.nftmarketplace.models;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.nft.marketplace.nftmarketplace.models.PublicationBlock;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.imageio.ImageIO;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 
+
 public class Publication {
 
-
     BufferedImage source;
-    ArrayList<PublicationBlock> blocks;
+    ArrayList<Frame> blocks;
 
     String format;
 
@@ -34,7 +39,7 @@ public class Publication {
         } catch (IOException e) {
             System.out.println("image buffer is empty");
         }
-        blocks = new ArrayList<PublicationBlock>();
+        blocks = new ArrayList<Frame>();
     }
 
 
@@ -62,7 +67,7 @@ public class Publication {
                 int w = (j == n - 1) ? source.getWidth() - x : dw;
                 int h = (i == m - 1) ? source.getHeight() - y : dh;
 
-                blocks.add(new PublicationBlock(i, j, source.getSubimage(x, y, w, h), format));
+                blocks.add(new Frame(i, j, source.getSubimage(x, y, w, h), format));
             }
         }
     }
@@ -88,11 +93,15 @@ public class Publication {
                 blocks.size());
     }
 
-
-
-
-
-
-
+    public NFTCollection nftCollectionBuilder(String title, String author, String src){
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = "";
+        try{
+            json = ow.writeValueAsString(blocks);
+        }catch (JacksonException e){
+            System.out.println(e.getMessage());
+        }
+        return new NFTCollection(title, src, author);
+    }
 
 }

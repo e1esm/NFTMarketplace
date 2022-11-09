@@ -1,6 +1,5 @@
-/*
-        package com.nft.marketplace.nftmarketplace.repository;
 
+package com.nft.marketplace.nftmarketplace.repository;
 import com.nft.marketplace.nftmarketplace.models.NFTCollection;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
@@ -12,4 +11,3 @@ public interface NFTRepository extends CrudRepository<NFTCollection, Integer> {
 }
 
 
- */

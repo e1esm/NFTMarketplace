@@ -8,22 +8,21 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class PublicationBlock {
+public class Frame {
 
-        public int x, y;
+        public int x, y, h, w;
 
         public String base64;
 
         @JsonIgnore
         public BufferedImage source;
 
-        public PublicationBlock() {
+        public Frame() {
             x = 0;
             y = 0;
             source = null;
         }
-
-        public PublicationBlock(int x, int y, BufferedImage source, String format) {
+        public Frame(int x, int y, BufferedImage source, String format) {
             this.x = x;
             this.y = y;
             this.source = source;
@@ -33,6 +32,8 @@ public class PublicationBlock {
             }catch (IOException e){
                 System.out.println(e.getMessage());
             }
+            h = geth();
+            w = getw();
             base64 = "data:image/" + format + ";base64,"+ Base64.getEncoder().encodeToString(byteArrayOS.toByteArray());
         }
 
