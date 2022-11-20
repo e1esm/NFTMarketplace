@@ -1,10 +1,10 @@
-CREATE TABLE "like_author"(
+CREATE TABLE IF NOT EXISTS "like_author"(
                               "author_id" INTEGER NOT NULL,
                               "user_id" INTEGER NOT NULL
 );
 ALTER TABLE
     "like_author" ADD PRIMARY KEY("author_id");
-CREATE TABLE "User"(
+CREATE TABLE IF NOT EXISTS "User"(
                        "User_id" INTEGER NOT NULL,
                        "username" VARCHAR(65036) NOT NULL,
                        "avatar" VARCHAR(65036) NOT NULL,
@@ -13,25 +13,25 @@ CREATE TABLE "User"(
 );
 ALTER TABLE
     "User" ADD PRIMARY KEY("User_id");
-CREATE TABLE "like_publications"(
+CREATE TABLE IF NOT EXISTS "like_publications"(
                                     "publication_id" INTEGER NOT NULL,
                                     "user_id" INTEGER NOT NULL
 );
 ALTER TABLE
     "like_publications" ADD PRIMARY KEY("publication_id");
-CREATE TABLE "like_blocks"(
+CREATE TABLE IF NOT EXISTS "like_blocks"(
                               "block_id" INTEGER NOT NULL,
                               "user_id" INTEGER NOT NULL
 );
 ALTER TABLE
     "like_blocks" ADD PRIMARY KEY("block_id");
-CREATE TABLE "publication"(
+CREATE TABLE IF NOT EXISTS "publication"(
                               "publication_id" INTEGER NOT NULL,
                               "author_id" INTEGER NOT NULL
 );
 ALTER TABLE
     "publication" ADD PRIMARY KEY("publication_id");
-CREATE TABLE "block"(
+CREATE TABLE IF NOT EXISTS "block"(
                         "block_id" INTEGER NOT NULL,
                         "base64" VARCHAR(65036) NOT NULL,
                         "x" INTEGER NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE "block"(
 );
 ALTER TABLE
     "block" ADD PRIMARY KEY("block_id");
-CREATE TABLE "blockspublication"(
+CREATE TABLE IF NOT EXISTS "blockspublication"(
                                     "publication_id" INTEGER NOT NULL,
                                     "block_id" INTEGER NOT NULL
 );
@@ -61,7 +61,7 @@ CREATE TABLE "like_author"(
 );
 ALTER TABLE
     "like_author" ADD PRIMARY KEY("author_id");
-CREATE TABLE "User"(
+CREATE TABLE IF NOT EXISTS "User"(
                        "User_id" INTEGER NOT NULL,
                        "username" VARCHAR(65036) NOT NULL,
                        "avatar" VARCHAR(65036) NOT NULL,
@@ -70,25 +70,25 @@ CREATE TABLE "User"(
 );
 ALTER TABLE
     "User" ADD PRIMARY KEY("User_id");
-CREATE TABLE "like_publications"(
+CREATE TABLE IF NOT EXISTS "like_publications"(
                                     "publication_id" INTEGER NOT NULL,
                                     "user_id" INTEGER NOT NULL
 );
 ALTER TABLE
     "like_publications" ADD PRIMARY KEY("publication_id");
-CREATE TABLE "like_blocks"(
+CREATE TABLE IF NOT EXISTS "like_blocks"(
                               "block_id" INTEGER NOT NULL,
                               "user_id" INTEGER NOT NULL
 );
 ALTER TABLE
     "like_blocks" ADD PRIMARY KEY("block_id");
-CREATE TABLE "publication"(
+CREATE TABLE IF NOT EXISTS "publication"(
                               "publication_id" INTEGER NOT NULL,
                               "author_id" INTEGER NOT NULL
 );
 ALTER TABLE
     "publication" ADD PRIMARY KEY("publication_id");
-CREATE TABLE "block"(
+CREATE TABLE IF NOT EXISTS "block"(
                         "block_id" INTEGER NOT NULL,
                         "base64" VARCHAR(65036) NOT NULL,
                         "x" INTEGER NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE "block"(
 );
 ALTER TABLE
     "block" ADD PRIMARY KEY("block_id");
-CREATE TABLE "blockspublication"(
+CREATE TABLE IF NOT EXISTS "blockspublication"(
                                     "publication_id" INTEGER NOT NULL,
                                     "block_id" INTEGER NOT NULL
 );
