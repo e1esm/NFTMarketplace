@@ -1,27 +1,37 @@
-apackage com.nft.marketplace.nftmarketplace.controllers;
+package com.nft.marketplace.nftmarketplace.controllers;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import com.nft.marketplace.nftmarketplace.jwt.JwtUtils;
+import com.nft.marketplace.nftmarketplace.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.awt.image.BufferedImage;
 
 @RestController
 public class RegistrationController {
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    PasswordEncoder encoder;
+    @Autowired
+    JwtUtils jwtUtils;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void registration(@RequestBody UserDto user) {
-        registrationService.addUser(
-                user.getUser_id(),
-                user.getUsername(),
-                user.getAvatar(),
-                user.getEmail(),
-                user.getRole()
-        );
-    }
+
 }
