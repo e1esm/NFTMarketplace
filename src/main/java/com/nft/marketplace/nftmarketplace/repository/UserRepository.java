@@ -3,7 +3,7 @@ package com.nft.marketplace.nftmarketplace.repository;
 
 import java.util.Optional;
 
-import com.nft.marketplace.nftmarketplace.models.User;
+import com.nft.marketplace.nftmarketplace.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

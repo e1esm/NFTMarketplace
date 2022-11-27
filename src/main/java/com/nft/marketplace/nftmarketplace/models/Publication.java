@@ -3,20 +3,21 @@ package com.nft.marketplace.nftmarketplace.models;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.nft.marketplace.nftmarketplace.Entity.NFTCollectionEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+
 import javax.imageio.ImageIO;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.logging.Logger;
 
+@Getter
+@Setter
 
 public class Publication {
 
@@ -25,20 +26,22 @@ public class Publication {
 
     String format;
 
+    String title;
 
     Publication() {
       blocks = new ArrayList<>();
       source = null;
     }
 
-    public Publication(String src) {
+    public Publication(String src, String title) {
         try {
             String[] stringArr = src.split(",");
             source = ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(stringArr[1])));
-            format = stringArr[0].substring(stringArr[0].indexOf('/'),stringArr[0].indexOf(';'));
+            format = stringArr[0].substring(stringArr[0].indexOf('/') + 1,stringArr[0].indexOf(';'));
         } catch (IOException e) {
             System.out.println("image buffer is empty");
         }
+        this.title = title;
         blocks = new ArrayList<Frame>();
     }
 
@@ -67,7 +70,7 @@ public class Publication {
                 int w = (j == n - 1) ? source.getWidth() - x : dw;
                 int h = (i == m - 1) ? source.getHeight() - y : dh;
 
-                blocks.add(new Frame(i, j, source.getSubimage(x, y, w, h), format));
+                blocks.add(new Frame(i, j, source.getSubimage(x, y, w, h), format,title ));
             }
         }
     }
@@ -93,7 +96,7 @@ public class Publication {
                 blocks.size());
     }
 
-    public NFTCollection nftCollectionBuilder(String title, String author, String src){
+    public NFTCollectionEntity nftCollectionBuilder(String title, String author, String src, int amount){
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = "";
         try{
@@ -101,7 +104,7 @@ public class Publication {
         }catch (JacksonException e){
             System.out.println(e.getMessage());
         }
-        return new NFTCollection(title, src, author);
+        return new NFTCollectionEntity(title, src, author, amount);
     }
 
 }

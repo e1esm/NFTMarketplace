@@ -1,0 +1,2 @@
+DROP TABLE blocks CASCADE;
+DROP TABLE nftcollection CASCADE;
