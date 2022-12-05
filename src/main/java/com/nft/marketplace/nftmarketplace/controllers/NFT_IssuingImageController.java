@@ -9,12 +9,16 @@ import com.nft.marketplace.nftmarketplace.service.NFTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+@Controller("/marketplace")
 public class NFT_IssuingImageController {
 
     @Autowired
@@ -23,13 +27,16 @@ public class NFT_IssuingImageController {
     @GetMapping("/nftcollections")
     public List<NFTCollectionEntity> getAllCollections() {
         return nftService.getAllCollections();
+
     }
 
 
 
     @CrossOrigin
     @PostMapping("/makeNft")
+    @Secured("ROLE_AUTHOR")
     public ResponseEntity<?> saveCollection(@RequestBody ImageDto img){
+
         Publication pub = new Publication(img.getSrc(), img.getTitle());
         pub.split(img.getN_blocks());
 
