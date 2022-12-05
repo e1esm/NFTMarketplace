@@ -4,6 +4,12 @@ CREATE TABLE IF NOT EXISTS "like_author"(
 );
 ALTER TABLE
     "like_author" ADD PRIMARY KEY("author_id");
+CREATE TABLE IF NOT EXISTS "wallets"(
+                              "wallet" VARCHAR(65036) NOT NULL,
+                              "email" VARCHAR(65036) NOT NULL
+);
+ALTER TABLE
+    "like_author" ADD PRIMARY KEY("wallet");
 CREATE TABLE IF NOT EXISTS "User"(
                        "User_id" INTEGER NOT NULL,
                        "username" VARCHAR(65036) NOT NULL,
