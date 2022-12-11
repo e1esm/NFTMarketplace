@@ -20,8 +20,7 @@ import java.util.List;
 public class BlockEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Integer block_id;
+    private Integer id;
 
 
     @ManyToOne
@@ -48,6 +47,10 @@ public class BlockEntity {
     private int y;
 
 
+    @Column(name = "likes")
+    private int likes;
+
+
     public BlockEntity(String sourceCode, int h, int w, int x, int y, String collectionTitle){
         this.sourceCode = sourceCode;
         this.h = h;
@@ -55,6 +58,7 @@ public class BlockEntity {
         this.x = x;
         this.y = y;
         this.collectionTitle = collectionTitle;
+        likes = 0;
     }
 
 

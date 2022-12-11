@@ -31,7 +31,6 @@ public class NFT_IssuingImageController {
     }
 
 
-
     @CrossOrigin
     @PostMapping("/makeNft")
     @Secured("ROLE_AUTHOR")

@@ -52,6 +52,11 @@ public class User{
     private Set<Role> roles = new HashSet<>();
 
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "liked_blocks", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "block_id"))
+    private Set<BlockEntity> likedBlocks = new HashSet<>();
+
+
     public User(String username, String email, String password){
         this.username = username;
         this.email = email;
