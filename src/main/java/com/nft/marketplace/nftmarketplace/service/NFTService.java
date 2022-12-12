@@ -1,4 +1,5 @@
 package com.nft.marketplace.nftmarketplace.service;
+import com.google.gson.Gson;
 import com.nft.marketplace.nftmarketplace.Entity.BlockEntity;
 import com.nft.marketplace.nftmarketplace.Entity.NFTCollectionEntity;
 import com.nft.marketplace.nftmarketplace.Entity.User;
@@ -52,10 +53,12 @@ public class NFTService {
     public boolean setLike(String username, int idOfBlock){
         boolean isSet = false;
 
-        BlockEntity block = blockRepository.findById(idOfBlock).get();
-        int amount = block.getLikes();
-        block.setLikes(amount + 1);
-
+        Optional<BlockEntity> block = blockRepository.findById(idOfBlock);
+        if(block.isPresent()){
+            isSet = true;
+            int amount = block.get().getLikes();
+            block.get().setLikes(amount + 1);
+        }
 
         return isSet;
     }
@@ -69,5 +72,43 @@ public class NFTService {
         return usersLikedBlocks;
     }
 
+
+    public Map<String, Integer> getBlocks(int limit, int pageNum){
+         Iterable<NFTCollectionEntity> nftCollectionEntities = nftRepository.findAll();
+         Iterator<NFTCollectionEntity> iterator = nftCollectionEntities.iterator();
+
+         ArrayList<NFTCollectionEntity> nftCollectionEntityArrayList = new ArrayList<>();
+        iterator.forEachRemaining(nftCollectionEntityArrayList::add);
+
+        ArrayList<String> nftCollectionsJson = new ArrayList<>();
+
+         Gson gson = new Gson();
+         if(limit > nftCollectionEntityArrayList.size()){
+             for(int i = 0; i < nftCollectionEntityArrayList.size(); ++i){
+                 nftCollectionsJson.add(gson.toJson(nftCollectionEntityArrayList.get(i)));
+             }
+        }else{
+             for(int i = pageNum * limit; i < nftCollectionEntityArrayList.size(); ++i){
+                 if(nftCollectionEntityArrayList.get(i) == null){
+                     break;
+                 }else{
+                     nftCollectionsJson.add(gson.toJson(nftCollectionEntityArrayList.get(i)));
+                 }
+             }
+         }
+        Map<String, Integer> collectionsAndLength = new HashMap<>();
+         collectionsAndLength.put(gson.toJson(nftCollectionsJson), nftCollectionsJson.size());
+         return collectionsAndLength;
+    }
+
+    public String getPreciseBlock(int id){
+        Optional<BlockEntity> preciseBlock = blockRepository.findById(id);
+        Gson gson = new Gson();
+        String jsonRepr = "";
+        if(preciseBlock.isPresent()){
+            jsonRepr = gson.toJson(preciseBlock.get());
+        }
+        return jsonRepr;
+    }
 
 }

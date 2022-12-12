@@ -74,7 +74,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 
         http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
                 authorizeRequests()
-                        .antMatchers("/api/auth/signin", "/api/auth/signup", "/marketplace/nftcollections", "/api/roles/upgradeRole")
+                        .antMatchers("/api/auth/signin", "/api/auth/signup", "/marketplace/nftcollections", "/api/roles/upgradeRole", "/market/*")
                                 .permitAll()
                                         .antMatchers("/marketplace/makeNft").hasAnyRole("ROLE_AUTHOR");
         http.authenticationProvider(authenticationProvider()).rememberMe().userDetailsService(userDetailsService).tokenValiditySeconds(7*24*60*60);

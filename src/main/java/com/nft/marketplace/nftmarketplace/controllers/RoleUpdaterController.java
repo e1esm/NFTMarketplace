@@ -21,7 +21,7 @@ public class RoleUpdaterController {
     RolesService rolesService;
 
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_AUTHOR"})
     @PostMapping("/upgradeRole")
     public ResponseEntity<?> upgradeRole(@RequestBody UpgradeRequest upgradeRequest) {
 
