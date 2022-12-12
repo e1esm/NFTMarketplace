@@ -32,7 +32,7 @@ public class Wallet {
     @Type(type = "text")
     @NotBlank
     @Column(name = "wallet")
-    //@Pattern(regexp = "^0x[0-9a-fA-F]{40}$", message = "wrong format")
+    @Pattern(regexp = "^0x[0-9a-fA-F]{40}$", message = "wrong format")
     private String wallet;
 
     public Wallet(String email, String wallet) {
