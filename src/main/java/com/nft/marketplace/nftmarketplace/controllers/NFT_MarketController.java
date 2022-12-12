@@ -20,7 +20,8 @@ public class NFT_MarketController {
     @GetMapping
     public ResponseEntity<?> retrieveCollections(@RequestBody MarketRequest marketRequest){
         Map<String, Integer> retrievedCollections = nftService.getBlocks(marketRequest.getLimit(), marketRequest.getPageNumber());
-        HttpHeaders httpHeaders = new HttpHeaders();
+        HttpHeaders httpHeaders = new HttpHeaders();;
+        httpHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
         httpHeaders.add("X-TOTAL-COUNT", String.valueOf(retrievedCollections.values().stream().findFirst().get()));
         return ResponseEntity.ok().headers(httpHeaders).body(retrievedCollections.keySet().stream().findFirst().get());
     }
@@ -28,6 +29,8 @@ public class NFT_MarketController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> retrieveBlock(@PathVariable Integer id){
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
         String jsonReprOfBlock = nftService.getPreciseBlock(id);
         return ResponseEntity.ok().body(jsonReprOfBlock);
     }

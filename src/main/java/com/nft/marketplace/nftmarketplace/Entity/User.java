@@ -36,6 +36,10 @@ public class User{
     @Size(max = 20)
     private String username;
 
+    @Type(type = "text")
+    @NotBlank
+    private String avatar;
+
     @Column(name = "email")
     @Type(type = "text")
     @NotBlank
@@ -57,9 +61,10 @@ public class User{
     private Set<BlockEntity> likedBlocks = new HashSet<>();
 
 
-    public User(String username, String email, String password){
+    public User(String username, String email, String password, String avatar){
         this.username = username;
         this.email = email;
         this.password = password;
+        this.avatar = avatar;
     }
 }
