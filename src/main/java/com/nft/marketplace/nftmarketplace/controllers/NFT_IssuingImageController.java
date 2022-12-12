@@ -27,6 +27,7 @@ public class NFT_IssuingImageController {
     @GetMapping("/nftcollections")
     public List<NFTCollectionEntity> getAllCollections() {
         HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
         responseHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
         responseHeaders.set("Access-Control-Allow-Headers",  "Origin, X-Requested-With, Content-Type, Accept");
         return nftService.getAllCollections();

@@ -26,7 +26,9 @@ public class RoleUpdaterController {
     @PostMapping("/upgradeRole")
     public ResponseEntity<?> upgradeRole(@RequestBody UpgradeRequest upgradeRequest) {
         HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
         responseHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
+        responseHeaders.set("Access-Control-Allow-Headers",  "Origin, X-Requested-With, Content-Type, Accept");
 
         Logger logger = LoggerFactory.getLogger(RoleUpdaterController.class);
         logger.info(upgradeRequest.getUsername());

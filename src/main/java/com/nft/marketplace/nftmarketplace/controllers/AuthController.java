@@ -66,7 +66,9 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
         HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
         responseHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
+        responseHeaders.set("Access-Control-Allow-Headers",  "Origin, X-Requested-With, Content-Type, Accept");
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(new UserInfoResponse(userDetails.getId(),
@@ -123,7 +125,9 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
         HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
         responseHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
+        responseHeaders.set("Access-Control-Allow-Headers",  "Origin, X-Requested-With, Content-Type, Accept");
 
         return ResponseEntity.ok(new MessageResponse("ok"));
     }
@@ -131,7 +135,9 @@ public class AuthController {
     @PostMapping("/signout")
     public ResponseEntity<?> logoutUser() {
         HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
         responseHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
+        responseHeaders.set("Access-Control-Allow-Headers",  "Origin, X-Requested-With, Content-Type, Accept");
 
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
