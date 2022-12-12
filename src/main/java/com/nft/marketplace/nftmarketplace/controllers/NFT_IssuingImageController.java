@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller("/marketplace")
 public class NFT_IssuingImageController {
 
@@ -26,6 +26,9 @@ public class NFT_IssuingImageController {
 
     @GetMapping("/nftcollections")
     public List<NFTCollectionEntity> getAllCollections() {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
+        responseHeaders.set("Access-Control-Allow-Headers",  "Origin, X-Requested-With, Content-Type, Accept");
         return nftService.getAllCollections();
 
     }
