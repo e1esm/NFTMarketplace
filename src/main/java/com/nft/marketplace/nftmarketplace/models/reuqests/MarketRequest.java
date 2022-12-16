@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MarketRequest {
-    int pageNumber;
+    int page;
     int limit;
+    int nftAmount;
 }

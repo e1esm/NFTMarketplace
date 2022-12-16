@@ -30,6 +30,7 @@ public class Frame {
             y = 0;
             source = null;
         }
+
         public Frame(int x, int y, BufferedImage source, String format, String title) {
             Logger logger = Logger.getLogger(String.valueOf(Frame.class));
             this.x = x;

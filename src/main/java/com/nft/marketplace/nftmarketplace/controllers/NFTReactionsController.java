@@ -21,25 +21,18 @@ public class NFTReactionsController {
     @Autowired
     NFTService nftService;
 
-
-    @PutMapping("/addLike")
-    public ResponseEntity<?> likeCurrentFrame(@RequestBody String username, @RequestBody int idOfFrame){
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Content-Type", "application/json");
-        responseHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
-        responseHeaders.set("Access-Control-Allow-Headers",  "Origin, X-Requested-With, Content-Type, Accept");
-
-        boolean result = nftService.setLike(username, idOfFrame);
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/like")
+    public ResponseEntity<?> likeCurrentFrame(@RequestBody String username, @RequestBody String idOfFrame){
+        boolean result = nftService.setLike(username, Integer.parseInt(idOfFrame));
 
         return result ? ResponseEntity.ok().body(HttpStatus.OK) : ResponseEntity.ok().body(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/getLikedBlocks")
-    public ResponseEntity<?> getLikedBlocks(@RequestBody String username){
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Content-Type", "application/json");
-        responseHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
-        responseHeaders.set("Access-Control-Allow-Headers",  "Origin, X-Requested-With, Content-Type, Accept");
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/getUserCollections")
+    public ResponseEntity<?> getLikedBlocks(@RequestParam String username){
         Gson gson = new Gson();
         Map<User, Set<BlockEntity>> likedBlocks = nftService.getLikedBlocks(username);
         String json = gson.toJson(likedBlocks);

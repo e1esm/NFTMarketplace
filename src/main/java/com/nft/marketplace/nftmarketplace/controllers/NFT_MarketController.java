@@ -11,33 +11,32 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RestController("/market")
+@RestController()
+@RequestMapping("/market")
 public class NFT_MarketController {
 
     @Autowired
     NFTService nftService;
-
-    @GetMapping
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/getAllBlocks")
     public ResponseEntity<?> retrieveCollections(@RequestBody MarketRequest marketRequest){
-        Map<String, Integer> retrievedCollections = nftService.getBlocks(marketRequest.getLimit(), marketRequest.getPageNumber());
-        HttpHeaders httpHeaders = new HttpHeaders();;
-        httpHeaders.set("Content-Type", "application/json");
-        httpHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
-        httpHeaders.set("Access-Control-Allow-Headers",  "Origin, X-Requested-With, Content-Type, Accept");
-        httpHeaders.add("X-TOTAL-COUNT", String.valueOf(retrievedCollections.values().stream().findFirst().get()));
-        return ResponseEntity.ok().headers(httpHeaders).body(retrievedCollections.keySet().stream().findFirst().get());
+        Map<String, Integer> retrievedCollections = nftService.getBlocks(marketRequest.getLimit(), marketRequest.getPage());
+
+
+        return ResponseEntity.ok().body(retrievedCollections.keySet().stream().findFirst().get());
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/getPreciseBlock")
+    public ResponseEntity<?> retrieveBlock(@RequestParam String id){
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<?> retrieveBlock(@PathVariable Integer id){
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Content-Type", "application/json");
-        responseHeaders.set("Access-Control-Allow-Origin", "localhost:3000");
-        responseHeaders.set("Access-Control-Allow-Headers",  "Origin, X-Requested-With, Content-Type, Accept");
-        String jsonReprOfBlock = nftService.getPreciseBlock(id);
+        String jsonReprOfBlock = nftService.getPreciseBlock(Integer.parseInt(id));
+        if(jsonReprOfBlock.isEmpty()) {
+            return ResponseEntity.ok().body("No entitties in db");
+        }
         return ResponseEntity.ok().body(jsonReprOfBlock);
     }
+
 
 
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,7 +38,7 @@ public class User{
     private String username;
 
     @Type(type = "text")
-    @NotBlank
+    @Nullable
     private String avatar;
 
     @Column(name = "email")
@@ -61,10 +62,9 @@ public class User{
     private Set<BlockEntity> likedBlocks = new HashSet<>();
 
 
-    public User(String username, String email, String password, String avatar){
+    public User(String username, String email, String password){
         this.username = username;
         this.email = email;
         this.password = password;
-        this.avatar = avatar;
     }
 }

@@ -26,13 +26,10 @@ public class SignupRequest {
     @Email
     private String email;
 
-    @JsonProperty
-    private Set<String> role;
 
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
 
-    @NotBlank
-    private String avatar;
+
 }
