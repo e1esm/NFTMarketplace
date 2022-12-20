@@ -2,6 +2,7 @@ package com.nft.marketplace.nftmarketplace.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nft.marketplace.nftmarketplace.Entity.BlockEntity;
+import com.nft.marketplace.nftmarketplace.Entity.User;
 import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.base64.Base64Encoder;
 
 import java.util.Arrays;
@@ -59,10 +60,10 @@ public class Frame {
         public int geth() { return source.getHeight(); }
 
 
-        public BlockEntity nftBlockEntityBuilder(){
+        public BlockEntity nftBlockEntityBuilder(User author){
             Logger logger = Logger.getLogger(String.valueOf(Frame.class));
             logger.info(collectionTitle);
-            return new BlockEntity(base64, h, w, x, y, collectionTitle);
+            return new BlockEntity(base64, h, w, x, y, collectionTitle, author);
         }
 
 }

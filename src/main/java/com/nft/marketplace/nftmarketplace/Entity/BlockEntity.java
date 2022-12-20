@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Type;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
@@ -33,9 +34,16 @@ public class BlockEntity {
     @Type(type = "text")
     private String sourceCode;
 
-    @JoinColumn(name = "authorName")
+
+    @JoinColumn(name = "authorId")
     @OneToOne
     User author;
+
+
+    @Nullable
+    @Column(name = "blockTitle")
+    @Type(type = "text")
+    String blockTitle;
 
     @Column(name = "height")
     private int h;
@@ -56,11 +64,11 @@ public class BlockEntity {
 
     @Column(name = "isPurchased")
     @ColumnDefault(value = "false")
-    private Boolean isPurchased;
+    private Boolean isPurchased = false;
 
 
 
-    public BlockEntity(String sourceCode, int h, int w, int x, int y, String collectionTitle){
+    public BlockEntity(String sourceCode, int h, int w, int x, int y, String collectionTitle, User author){
         this.sourceCode = sourceCode;
         this.h = h;
         this.w = w;
@@ -68,6 +76,7 @@ public class BlockEntity {
         this.y = y;
         this.collectionTitle = collectionTitle;
         likes = 0;
+        this.author = author;
     }
 
 

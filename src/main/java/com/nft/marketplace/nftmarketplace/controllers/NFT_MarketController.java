@@ -24,10 +24,10 @@ public class NFT_MarketController {
 
     @Autowired
     NFTService nftService;
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/")
+    @CrossOrigin
+    @GetMapping("/getAllBlocks")
     @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_AUTHOR"})
-    public ResponseEntity<?> retrieveCollections(@RequestParam MarketRequest marketRequest){
+    public ResponseEntity<?> retrieveCollections(MarketRequest marketRequest){
         Map<String, Integer> retrievedCollections = nftService.getBlocks(marketRequest.getLimit(), marketRequest.getPage());
 
 
@@ -35,7 +35,7 @@ public class NFT_MarketController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/getPreciseBlock/")
+    @GetMapping("/getPreciseBlock")
     @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_AUTHOR"})
     public ResponseEntity<?> retrieveBlock(@RequestParam String id, @RequestParam String username){
 
@@ -47,7 +47,7 @@ public class NFT_MarketController {
         }
         ArrayList<String> response = new ArrayList<>();
         response.add(jsonReprOfBlock);
-        response.add(wallet.stream().findFirst().get().getWallet());
+       // response.add(wallet.stream().findFirst().get().getWallet());
         return ResponseEntity.ok().body(new Gson().toJson(response));
     }
 

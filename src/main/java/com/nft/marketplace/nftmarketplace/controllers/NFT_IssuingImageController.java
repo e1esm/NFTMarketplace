@@ -48,6 +48,7 @@ public class NFT_IssuingImageController {
         nftService.saveOrUpdate(pub.nftCollectionBuilder(img.getTitle(),user ,img.getSrc() ,img.getNblocks(), img.getPrice()), pub);
 
         return ResponseEntity.ok().body(pub.getJsonRepresentation());
+
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

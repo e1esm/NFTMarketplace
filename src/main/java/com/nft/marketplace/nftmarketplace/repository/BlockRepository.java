@@ -19,4 +19,9 @@ public interface BlockRepository extends CrudRepository<BlockEntity, Integer> {
     @Query(value = "update blocks SET is_purchased = ? WHERE blocks.id = ?", nativeQuery = true)
     void update(boolean isPurchased, int blockId);
 
+
+    @Modifying
+    @Transactional
+    @Query(value = "update blocks SET block_title = ? WHERE blocks.id = ?", nativeQuery = true)
+    void updateTitle(String title, int blockId);
 }

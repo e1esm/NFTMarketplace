@@ -33,7 +33,6 @@ public class User{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Type(type = "text")
-    @Nullable
     @Size(max = 20)
     @Column(name = "name")
     private String username;
@@ -44,7 +43,7 @@ public class User{
 
     @Column(name = "email")
     @Type(type = "text")
-    @NotBlank
+    @Nullable
     @Size(max = 50)
     private String email;
 

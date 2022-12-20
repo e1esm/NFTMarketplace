@@ -10,10 +10,9 @@ import com.nft.marketplace.nftmarketplace.repository.NFTRepository;
 import com.nft.marketplace.nftmarketplace.repository.UserRepository;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Block;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -60,12 +59,14 @@ public class NFTService {
         NFTCollectionEntity nftCollectionEntity = nftRepository.save(nftCollection);
 
         ArrayList<BlockEntity> blockEntities = new ArrayList<>();
-        for(int i = 0; i < publication.getBlocks().size(); i++){
-            blockEntities.add(publication.getBlocks().get(i).nftBlockEntityBuilder());
+        for(int i = 0; i < publication.getBlocks().size(); ++i){
+            blockEntities.add(publication.getBlocks().get(i).nftBlockEntityBuilder(nftCollection.getUser()));
             blockEntities.get(i).setCollection((nftCollectionEntity));
         }
-
         blockRepository.saveAll(blockEntities);
+        for(int i = 0; i < publication.getBlocks().size(); ++i){
+            blockRepository.updateTitle(blockEntities.get(i).getCollectionTitle() + blockEntities.get(i).getId(), blockEntities.get(i).getId());
+        }
 
     }
 
@@ -103,11 +104,12 @@ public class NFTService {
          Iterator<NFTCollectionEntity> iterator = nftCollectionEntities.iterator();
 
          ArrayList<NFTCollectionEntity> nftCollectionEntityArrayList = new ArrayList<>();
-        iterator.forEachRemaining(nftCollectionEntityArrayList::add);
+         iterator.forEachRemaining(nftCollectionEntityArrayList::add);
 
         ArrayList<String> nftCollectionsJson = new ArrayList<>();
 
          Gson gson = new Gson();
+
          if(limit > nftCollectionEntityArrayList.size()){
              for(int i = 0; i < nftCollectionEntityArrayList.size(); ++i){
                  nftCollectionsJson.add(gson.toJson(nftCollectionEntityArrayList.get(i)));
@@ -122,17 +124,20 @@ public class NFTService {
              }
          }
         Map<String, Integer> collectionsAndLength = new HashMap<>();
-         collectionsAndLength.put(gson.toJson(nftCollectionsJson), nftCollectionsJson.size());
+         collectionsAndLength.put(gson.toJson(nftCollectionEntities),10);
          return collectionsAndLength;
     }
 
     public String getPreciseBlock(int id){
         Optional<BlockEntity> preciseBlock = blockRepository.findById(id);
+        Logger logger = LoggerFactory.getLogger(NFTService.class);
         Gson gson = new Gson();
         String jsonRepr = "";
         if(preciseBlock.isPresent()){
             jsonRepr = gson.toJson(preciseBlock.get());
+
         }
+        logger.info(jsonRepr);
         return jsonRepr;
     }
 
