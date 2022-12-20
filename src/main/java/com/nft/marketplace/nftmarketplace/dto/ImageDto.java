@@ -9,8 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ImageDto {
-    private int n_blocks;
+    private float price;
+    private int nblocks;
     private String src;
     private String title;
     private String walletID;
+    private String username;
+    private String sellerWallet;
 }

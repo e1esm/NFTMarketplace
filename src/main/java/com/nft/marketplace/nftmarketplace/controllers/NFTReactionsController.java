@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -23,6 +24,7 @@ public class NFTReactionsController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/like")
+    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_AUTHOR"})
     public ResponseEntity<?> likeCurrentFrame(@RequestBody String username, @RequestBody String idOfFrame){
         boolean result = nftService.setLike(username, Integer.parseInt(idOfFrame));
 
@@ -32,6 +34,7 @@ public class NFTReactionsController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getUserCollections")
+    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_AUTHOR"})
     public ResponseEntity<?> getLikedBlocks(@RequestParam String username){
         Gson gson = new Gson();
         Map<User, Set<BlockEntity>> likedBlocks = nftService.getLikedBlocks(username);

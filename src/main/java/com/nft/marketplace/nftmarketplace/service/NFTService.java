@@ -3,14 +3,17 @@ import com.google.gson.Gson;
 import com.nft.marketplace.nftmarketplace.Entity.BlockEntity;
 import com.nft.marketplace.nftmarketplace.Entity.NFTCollectionEntity;
 import com.nft.marketplace.nftmarketplace.Entity.User;
+import com.nft.marketplace.nftmarketplace.Entity.Wallet;
 import com.nft.marketplace.nftmarketplace.models.Publication;
 import com.nft.marketplace.nftmarketplace.repository.BlockRepository;
 import com.nft.marketplace.nftmarketplace.repository.NFTRepository;
 import com.nft.marketplace.nftmarketplace.repository.UserRepository;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Block;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -28,6 +31,22 @@ public class NFTService {
 
     @Autowired
     UserRepository userRepository;
+
+    public void deleteCollection(int id){
+        NFTCollectionEntity nftEntity = nftRepository.findById(Integer.valueOf(id)).get();
+        nftRepository.deleteById(id);
+        for(int i = id; i <= id + nftEntity.getAmount_of_blocks(); ++i){
+            blockRepository.deleteById(i);
+        }
+    }
+
+    public void buyNft(String username, Integer idOfBlock){
+        User user = userRepository.findByUsername(username).get();
+        BlockEntity blockEntity = blockRepository.findById(idOfBlock).get();
+        blockEntity.setIsPurchased(true);
+        blockRepository.update(true, blockEntity.getId());
+        userRepository.save(user.getId(), blockEntity.getId());
+    }
 
     public List<NFTCollectionEntity> getAllCollections(){
 
@@ -72,6 +91,12 @@ public class NFTService {
         return usersLikedBlocks;
     }
 
+    public Set<Wallet> getWalletOfSeller(int id){
+        BlockEntity blockEntity = blockRepository.findById(id).get();
+        User user = blockEntity.getAuthor();
+        return user.getWallets();
+    }
+
 
     public Map<String, Integer> getBlocks(int limit, int pageNum){
          Iterable<NFTCollectionEntity> nftCollectionEntities = nftRepository.findAll();
@@ -111,4 +136,8 @@ public class NFTService {
         return jsonRepr;
     }
 
+    public String getPreciseCollection(Integer id){
+        NFTCollectionEntity nftCollectionEntity = nftRepository.findById(id).get();
+        return new Gson().toJson(nftCollectionEntity);
+    }
 }

@@ -13,4 +13,5 @@ public class MarketRequest {
     int page;
     int limit;
     int nftAmount;
+    String username;
 }

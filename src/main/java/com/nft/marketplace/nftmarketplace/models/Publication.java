@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.nft.marketplace.nftmarketplace.Entity.NFTCollectionEntity;
+import com.nft.marketplace.nftmarketplace.Entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -96,7 +97,7 @@ public class Publication {
                 blocks.size());
     }
 
-    public NFTCollectionEntity nftCollectionBuilder(String title, String author, String src, int amount){
+    public NFTCollectionEntity nftCollectionBuilder(String title, User author, String src, int amount, float price){
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = "";
         try{
@@ -104,7 +105,7 @@ public class Publication {
         }catch (JacksonException e){
             System.out.println(e.getMessage());
         }
-        return new NFTCollectionEntity(title, src, author, amount);
+        return new NFTCollectionEntity(title, src, author, amount, price);
     }
 
 }

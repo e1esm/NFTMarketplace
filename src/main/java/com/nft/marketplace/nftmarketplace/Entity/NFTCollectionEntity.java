@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,8 +24,12 @@ public class NFTCollectionEntity {
     //@Column(name = "collection_id", nullable = false)
     private Integer id;
 
-    @Column(name = "author")
-    private String author;
+    @ManyToOne
+    @JoinColumn(name = "userWallets")
+    private User user;
+
+    @Column(name = "price")
+    private float price;
 
 
     @Column(name = "collection_title", unique = false)
@@ -39,15 +44,20 @@ public class NFTCollectionEntity {
     private Integer amount_of_blocks;
 
 
+    @Column(name = "lastBuy")
+    @Nullable
+    private String lastBuy;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "collection", cascade = CascadeType.ALL)
     private List<BlockEntity> blockEntityList = new ArrayList<>();
 
 
-    public NFTCollectionEntity(String title, String src, String author, int amount_of_blocks) {
+    public NFTCollectionEntity(String title, String src, User author, int amount_of_blocks, float price) {
         this.title = title;
         this.sourceCode = src;
-        this.author = author;
+        this.user= author;
         this.amount_of_blocks = amount_of_blocks;
+        this.price = price;
     }
 
 

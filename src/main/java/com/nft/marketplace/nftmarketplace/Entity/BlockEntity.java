@@ -5,11 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
@@ -34,6 +33,10 @@ public class BlockEntity {
     @Type(type = "text")
     private String sourceCode;
 
+    @JoinColumn(name = "authorName")
+    @OneToOne
+    User author;
+
     @Column(name = "height")
     private int h;
 
@@ -49,6 +52,12 @@ public class BlockEntity {
 
     @Column(name = "likes")
     private int likes;
+
+
+    @Column(name = "isPurchased")
+    @ColumnDefault(value = "false")
+    private Boolean isPurchased;
+
 
 
     public BlockEntity(String sourceCode, int h, int w, int x, int y, String collectionTitle){

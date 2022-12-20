@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -75,15 +76,17 @@ public class AuthController {
                         userDetails.getEmail(),
                         roles));
     }
-    @CrossOrigin(origins = "http://localhost:3000")
+    //@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.POST})
+
+    @CrossOrigin
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!", 417));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!", 417));
         }
 
         // Create new user's account
@@ -123,14 +126,15 @@ public class AuthController {
         responseHeaders.set("Content-Type", "application/json");
 
 
-        return ResponseEntity.ok(new MessageResponse("ok"));
+        return ResponseEntity.ok(new MessageResponse("ok", 200));
     }
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/signout")
+    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_AUTHOR"})
     public ResponseEntity<?> logoutUser() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(new MessageResponse("You've been signed out!"));
+                .body(new MessageResponse("You've been signed out!", 200));
     }
 }
 

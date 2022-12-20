@@ -25,7 +25,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "username")
+        @UniqueConstraint(columnNames = "name")
 })
 public class User{
 
@@ -33,8 +33,9 @@ public class User{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Type(type = "text")
-    @NotBlank
+    @Nullable
     @Size(max = 20)
+    @Column(name = "name")
     private String username;
 
     @Type(type = "text")
@@ -52,14 +53,25 @@ public class User{
     private String password;
 
 
+    @Nullable
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
 
+    @Nullable
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "liked_blocks", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "block_id"))
     private Set<BlockEntity> likedBlocks = new HashSet<>();
+
+    @Nullable
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_wallets", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "wallet_id"))
+    private Set<Wallet> wallets = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "bought_blocks", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name="block_id"))
+    private Set<BlockEntity> bought_blocks = new HashSet<>();
 
 
     public User(String username, String email, String password){

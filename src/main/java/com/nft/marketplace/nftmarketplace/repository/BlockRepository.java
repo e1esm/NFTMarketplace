@@ -14,4 +14,9 @@ import java.beans.Transient;
 public interface BlockRepository extends CrudRepository<BlockEntity, Integer> {
 
 
+    @Modifying
+    @Transactional
+    @Query(value = "update blocks SET is_purchased = ? WHERE blocks.id = ?", nativeQuery = true)
+    void update(boolean isPurchased, int blockId);
+
 }
